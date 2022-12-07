@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../assets/Logo.svg" type="image/x-icon">
+    <title>YelpCamp</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/script.js" defer></script>
+    <script src="/js/clusterMap.js" defer></script>
+    <script src="/js/closeAlert.js" defer></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.11.0/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.11.0/mapbox-gl.js"></script>
+    <script defer>
+        const mapToken = '<%-process.env.MAPBOX_TOKEN%>'
+        const campgrounds = { features: <%- JSON.stringify(campgrounds) %>}
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <%- include('../partials/header') %>
+        <main class="container">
+            <%- include('../flash')%>
+                <section class="welcome-section">
+                    <div class="welcome-box">
+                        <div class="flow">
+                            <h1 class="title welcome-title fs-800 fw-700">Welcome to YelpCamp!</h1>
+                            <p class="text-neutral fs-400 welcome-subtitle">View our hand-picked campgrounds from all
+                                over
+                                the world, or add your own.</p>
+                            <form class="search-container" action="/campgrounds/page/1">
+                                <input class="input search-input" type="text" name="search"
+                                    placeholder="Search for camps">
+                                <button class="btn btn-black">Search</button>
+                            </form>
+                            <a class="text-neutral fs-400 add-link" href="/campgrounds/new">Or add your own
+                                campground</a>
+                        </div>
+                        <div class="map cluster-map" id="cluster-map"></div>
+                    </div>
+                </section>
+                <section class="campgrounds-section">
+                    <ul class="index-campgrounds-grid">
+                        <% for(let c of campgrounds) {%>
+                            <li class="card campground-index-card flow">
+                                <% if (c.images[0]) {%>
+                                    <img src="<%=c.images[0].url%>" alt="">
+                                    <% } else {%>
+                                        <img class="placeholder-img" src="/assets/placeholder.png" alt="">
+                                        <% } %>
+                                            <h2 class="campground-title fs-400 fw-700">
+                                                <%=c.title%>
+                                            </h2>
+                                            <p class="description fs-400 text-neutral">
+                                                <%=c.description%>
+                                            </p>
+                                            <a class="btn text-center w-100 btn-white"
+                                                href="/campgrounds/<%=c._id%>">View
+                                                Campground</a>
+                            </li>
+                            <% }%>
+                    </ul>
+                    <% if(hasPages) {%>
+                        <ul class="pagination">
+                            <% for(let i=1; i < pages; i++) {%>
+                                <li><a href="/campgrounds/page/<%=i%>"
+                                        class="page-btn <%=parseFloat(currentPage) === i && 'active' %> ">
+                                        <%=i%>
+                                    </a></li>
+                                <% } %>
+                        </ul>
+                        <% } %>
+                            <% if(!hasPages) { %>
+                                <a href="/campgrounds/page/1" class="centered-back-link text-neutral fs-400">&larr; Back
+                                    to
+                                    all
+                                    campgrounds</a>
+                                <% } %>
+
+                </section>
+        </main>
+
+        <%- include('../partials/footer') %>
+</body>

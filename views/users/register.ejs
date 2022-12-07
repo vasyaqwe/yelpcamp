@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YelpCamp</title>
+    <link rel="shortcut icon" href="../assets/Logo.svg" type="image/x-icon">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="auth">
+    <main class="grid auth-grid">
+        <%- include('../flash')%>
+            <header class="secondary-header auth-header container">
+                <div class="logo">
+                    <img src="/assets/Logo.svg" alt="YelpCamp logo">
+                    <a href="/" class="logo-text">YelpCamp</a>
+                </div>
+                <a href="/campgrounds/page/1" class="text-neutral fs-400">&larr; Back to campgrounds</a>
+            </header>
+            <div class="grid-content auth-grid-content container flow" style="--flow-space: 1.7rem;">
+                <h1 class="title auth-title fs-700 fw-700">Start exploring camps from all around the world.</h1>
+                <form class="auth-form " action="/register" method="POST">
+                    <div class="">
+                        <label for="email" class="text-neutral fs-400">Email</label>
+                        <input class="input validation-input grey-input" required type="email" id="email" name="email"
+                            placeholder="johndoe_91@gmail.com">
+                    </div>
+                    <div class="">
+                        <label for="username" class="text-neutral fs-400">Username</label>
+                        <input class="input validation-input grey-input" required type="text" id="username"
+                            name="username" placeholder="johndoe_91">
+                    </div>
+                    <div class="">
+                        <label for="password" class="text-neutral fs-400">Password</label>
+                        <input class="input validation-input grey-input" required type="password" id="password"
+                            name="password" placeholder="Choose Password">
+                    </div>
+                    <button class="btn btn-black text-center w-100">Create an account</button>
+                </form>
+                <p class="text-neutral mt">Already a user? <a class="accent-link" href="/login">Sign in</a></p>
+            </div>
+            <div class="grid-smaller-col auth-quote-col mt-mobile bg-neutral">
+                <article class="grid-smaller-col-content quote auth-quote">
+                    <h2 class="fw-700 fs-600">"YelpCamp has honestly
+                        saved me hours of
+                        research time, and the
+                        camps on here are
+                        definitely well picked and
+                        added."</h2>
+                    <div class="user-testimonial">
+                        <img src="/assets/User.svg" alt="May Andrews">
+                        <p class="fw-700">May Andrews</p>
+                        <p class="text-neutral-200">Professional hiker</p>
+                    </div>
+                </article>
+            </div>
+    </main>
+</body>
+
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../assets/Logo.svg" type="image/x-icon">
+    <title>YelpCamp</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/script.js" defer></script>
+    <script src="/js/fileInput.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <%- include('../partials/header') %>
+        <main class="container">
+            <div class="new-form mt">
+                <h1 class="title fs-700 fw-700">Add New Campground</h1>
+                <form action="/campgrounds" method="POST" enctype="multipart/form-data">
+                    <label class="fs-400 text-neutral mt" style="--mt: 1.5rem;" for="title">Campground Name</label>
+                    <input class="validation-input input grey-input" required type="text" id="title"
+                        name="campground[title]" placeholder="Seven Sisters Waterfall">
+
+                    <label class="fs-400 text-neutral" for="location">Location</label>
+                    <input class="validation-input input grey-input" required type="text" id="location"
+                        name="campground[location]" placeholder="Møre og Romsdal, Norway">
+
+                    <label class="fs-400 text-neutral" for="price">Price/Night</label>
+                    <input class="validation-input input grey-input input-price" required type="number" id="price"
+                        name="campground[price]" placeholder="$149">
+
+                    <label class="fs-400 text-neutral" for="image">Image(s)</label>
+                    <div class="file-input-wrapper">
+                        <label class="file-input" data-content="" for="image">Choose file..</label>
+                        <input class="validation-input" required type="file" multiple name="image" id="image">
+                    </div>
+
+                    <label class="fs-400 text-neutral" for="description">Description</label>
+                    <textarea class="input validation-input grey-input" required id="description"
+                        name="campground[description]" placeholder="The Seven Sisters is the 39th tallest waterfall in Norway.
+The 410-metre tall waterfall consists of seven separate
+streams, and the tallest of the seven has a free fall that
+measures 250 metres. The waterfall is located along the
+Geirangerfjorden in Stranda Municipality in Møre og
+Romsdal county, Norway."></textarea>
+
+                    <button class="btn btn-black w-100 mt" style="--mt: 1.5rem;">Add campground</button>
+                </form>
+            </div>
+        </main>
+        <%- include('../partials/footer') %>
+</body>
+
+</html>

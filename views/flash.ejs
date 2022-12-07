@@ -1,0 +1,19 @@
+<% if (success && success.length) {%>
+    <div class="alert success-alert">
+        <button class="close-btn">
+        </button>
+        <p>
+            <%=success%>
+        </p>
+    </div>
+    <%}%>
+
+        <% if (error && error.length) {%>
+            <div class="alert error-alert">
+                <button class="close-btn">
+                </button>
+                <p>
+                    <%=error%>
+                </p>
+            </div>
+            <%}%>

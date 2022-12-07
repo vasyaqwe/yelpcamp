@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../assets/Logo.svg" type="image/x-icon">
+    <title>YelpCamp</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/script.js" defer></script>
+    <script src="/js/fileInput.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <%- include('../partials/header') %>
+        <main class="container">
+            <div class="new-form mt">
+                <h1 class="title fs-700 fw-700">Edit Campground</h1>
+                <form action="/campgrounds/<%=campground.id%>?_method=PUT" method="POST" enctype="multipart/form-data">
+                    <label class="fs-400 text-neutral mt" style="--mt: 1.5rem;" for="title">Campground Name</label>
+                    <input class="validation-input input grey-input" required type="text" id="title"
+                        name="campground[title]" value="<%=campground.title%>">
+
+                    <label class="fs-400 text-neutral" for="location">Location</label>
+                    <input class="validation-input input grey-input" required type="text" id="location"
+                        name="campground[location]" value="<%=campground.location%>">
+
+                    <label class="fs-400 text-neutral" for="price">Price/Night</label>
+                    <input class="validation-input input grey-input input-price" step="any" required type="number"
+                        id="price" name="campground[price]" value="<%=campground.price%>">
+
+                    <label class="fs-400 text-neutral" for="image">Add Image(s)</label>
+                    <div class="file-input-wrapper">
+                        <label class="file-input" data-content="" for="image">Choose file..</label>
+                        <input class="validation-input" type="file" multiple name="image" id="image">
+                    </div>
+                    <div class="mt">
+                        <p class="fs-400 text-neutral" for="description">Choose images to delete</p>
+                        <div class="mt img-thumbnails-container">
+                            <% campground.images.map((img, i)=> { %>
+                                <div class="card delete-img-thumbnail">
+                                    <img src="<%=img.thumbnail%>" class="img-thumbnail" alt="">
+                                    <input type="checkbox" class="checkbox img-thumbnail-checkbox" id="image-<%=i%>"
+                                        name="deleteImages[]" value="<%=img.filename%>">
+                                </div>
+                                <% }) %>
+                        </div>
+                    </div>
+                    <label class="fs-400 text-neutral" for="description">Description</label>
+                    <textarea class="input grey-input validation-input" required id="description"
+                        name="campground[description]"><%=campground.description%></textarea>
+                    <button class="btn btn-black w-100 mt" style="--mt: 1.5rem;">Save</button>
+                </form>
+                <a href="/campgrounds/<%=campground._id%>" class="text-neutral fs-400 centered-back-link">&larr; Back to
+                    campground</a>
+
+            </div>
+        </main>
+        <%- include('../partials/footer') %>
+</body>
+
+</html>

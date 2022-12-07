@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../assets/Logo.svg" type="image/x-icon">
+    <title>YelpCamp</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/stars.css" />
+    <script src="/js/script.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <%- include('../partials/header') %>
+        <main class="container">
+            <div class="new-form mt">
+                <h1 class="title fs-700 fw-700">Add New Review</h1>
+                <form action="/campgrounds/<%=campground._id%>/reviews" method="POST">
+                    <div class="">
+                        <p class="fs-400 text-neutral mt" style="--mt: 1.4rem;">Rate it</p>
+                        <fieldset class="starability-basic mt" style="--mt: .4rem;">
+                            <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1"
+                                checked aria-label="No rating." />
+
+                            <input type="radio" id="rate1" name="review[rating]" value="1" />
+                            <label class="rating-label" for="rate1">1 star.</label>
+
+                            <input type="radio" id="rate2" name="review[rating]" value="2" />
+                            <label class="rating-label" for="rate2">2 stars.</label>
+
+                            <input type="radio" id="rate3" name="review[rating]" value="3" />
+                            <label class="rating-label" for="rate3">3 stars.</label>
+
+                            <input type="radio" id="rate4" name="review[rating]" value="4" />
+                            <label class="rating-label" for="rate4">4 stars.</label>
+
+                            <input type="radio" id="rate5" name="review[rating]" value="5" />
+                            <label class="rating-label" for="rate5">5 stars.</label>
+
+                            <span class="starability-focus-ring"></span>
+                        </fieldset>
+                    </div>
+                    <label class="fs-400 text-neutral" for="body">Description</label>
+                    <textarea class="input grey-input validation-input" required id="body" name="review[body]"
+                        placeholder="Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus minus ex tenetur molestiae architecto tempora?"></textarea>
+
+                    <button class="btn btn-black w-100 mt" style="--mt: 1.5rem;">Post Review</button>
+                </form>
+            </div>
+        </main>
+        <%- include('../partials/footer') %>
+</body>
+
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../assets/Logo.svg" type="image/x-icon">
+    <title>YelpCamp</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/script.js" defer></script>
+    <script src="/js/closeAlert.js" defer></script>
+    <link rel="stylesheet" type="text/css" href="/css/stars.css" />
+    <script src="/js/detailsPageMap.js" defer></script>
+    <script src="/js/carousel.js" defer></script>
+    <script defer>
+        const mapToken = '<%-process.env.MAPBOX_TOKEN%>'
+        const campground = <%- JSON.stringify(campground) %>
+    </script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.11.0/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.11.0/mapbox-gl.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <%- include('../partials/header') %>
+        <main class="container">
+            <%- include('../flash')%>
+                <div class="details-campground-container">
+                    <div class="card card-map" style="--card-padding: min(8vw, 3em);">
+                        <div class="map details-map" id="map"></div>
+                    </div>
+                    <div class="campground-info">
+                        <div class="card campground-details-card flow" style="--card-padding: min(8vw, 3em);">
+                            <% if(campground.images.length !==0) {%>
+                                <div class="carousel">
+                                    <%campground.images.map((img, i)=> { %>
+                                        <div class="carousel-item" data-index="<%=i%>" data-active="<%= i === 0 %>">
+                                            <img class="" src="<%=img.url%>" alt="">
+                                        </div>
+                                        <% }) %>
+                                            <% if(campground.images.length> 1) {%>
+                                                <button class="carousel-btn btn-prev"><svg
+                                                        xmlns="http://www.w3.org/2000/svg" width="50" height="50"
+                                                        viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 1);">
+                                                        <path
+                                                            d="M13.939 4.939 6.879 12l7.06 7.061 2.122-2.122L11.121 12l4.94-4.939z">
+                                                        </path>
+                                                    </svg></button>
+                                                <button class="carousel-btn btn-next"><svg
+                                                        xmlns="http://www.w3.org/2000/svg" width="50" height="50"
+                                                        viewBox="0 0 24 24" style="fill: rgba(226, 226, 226, 1);">
+                                                        <path
+                                                            d="M10.061 19.061 17.121 12l-7.06-7.061-2.122 2.122L12.879 12l-4.94 4.939z">
+                                                        </path>
+                                                    </svg></button>
+                                                <% } %>
+                                </div>
+                                <% } else {%>
+                                    <img class="placeholder-img" src="/assets/placeholder.png" alt="">
+                                    <% } %>
+                                        <div class="flex-between">
+                                            <h1 class="fw-700 fs-600">
+                                                <%=campground.title%>
+                                            </h1>
+                                            <p class="fs-400 fw-500">
+                                                $<%=campground.price%>/night
+                                            </p>
+                                        </div>
+                                        <p class="text-neutral fs-400">
+                                            <%=campground.description%>
+                                        </p>
+                                        <div class="flex-between flex-col-mobile">
+                                            <p class="text-neutral fs-400 fw-500">
+                                                <%=campground.location%>
+                                            </p>
+                                            <p>
+                                                <i class="text-neutral fs-400">posted by <u class="fw-700">
+                                                        <%=campground.author.username%>
+                                                    </u>
+                                                    <%=moment(campground.createdAt).fromNow() %>
+                                                </i>
+                                            </p>
+                                        </div>
+                                        <% if(currentUser && campground.author.equals(currentUser._id)) {%>
+                                            <div class="flex-between">
+                                                <a class="mb-2 btn btn-edit flex"
+                                                    href="/campgrounds/<%=campground._id%>/edit">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                        viewBox="0 0 24 24" style="fill: #000;">
+                                                        <path
+                                                            d="M19.045 7.401c.378-.378.586-.88.586-1.414s-.208-1.036-.586-1.414l-1.586-1.586c-.378-.378-.88-.586-1.414-.586s-1.036.208-1.413.585L4 13.585V18h4.413L19.045 7.401zm-3-3 1.587 1.585-1.59 1.584-1.586-1.585 1.589-1.584zM6 16v-1.585l7.04-7.018 1.586 1.586L7.587 16H6zm-2 4h16v2H4z">
+                                                        </path>
+                                                    </svg>Edit</a>
+                                                <form action="/campgrounds/<%=campground._id%>?_method=DELETE"
+                                                    method="POST">
+                                                    <button class="btn btn-delete flex"> <svg
+                                                            xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                                            viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 1);">
+                                                            <path
+                                                                d="M6 7H5v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7H6zm10.618-3L15 2H9L7.382 4H3v2h18V4z">
+                                                            </path>
+                                                        </svg>Delete</button>
+                                                </form>
+                                            </div>
+                                            <% } %>
+                        </div>
+                        <div class='card reviews-card <%=campground.reviews.length < 1 ? ' no-reviews-card' : '' %>'
+                            style="--card-padding: min(8vw, 3em);">
+                            <!-- add editing!!!!!!! -->
+                            <% if(campground.reviews.length < 1) {%>
+                                <p class="fs-400 text-neutral">This campground has no reviews yet.</p>
+                                <% } else {%>
+                                    <ul class="reviews-list">
+                                        <% for(let review of campground.reviews) {%>
+                                            <li class="review-item flow" style="--flow-space: .3rem">
+                                                <div class="flex-between">
+                                                    <div class="flex">
+                                                        <div class="flex-between">
+                                                            <h2 class="fw-700 fs-400">
+                                                                <%= review.author.username %>
+                                                            </h2>
+                                                            <i class="text-neutral review-date">
+                                                                <%=moment(review.createdAt).fromNow() %>
+                                                            </i>
+                                                        </div>
+                                                        <% if(currentUser && review.author.equals(currentUser._id)) {%>
+                                                            <form
+                                                                action="/campgrounds/<%=campground._id%>/reviews/<%=review._id%>?_method=DELETE"
+                                                                method="POST">
+                                                                <button class="btn btn-delete btn-icon">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20"
+                                                                        height="20" viewBox="0 0 24 24"
+                                                                        style="fill: rgba(255, 255, 255, 1);">
+                                                                        <path
+                                                                            d="M6 7H5v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7H6zm10.618-3L15 2H9L7.382 4H3v2h18V4z">
+                                                                        </path>
+                                                                    </svg></button>
+                                                            </form>
+                                                            <% } %>
+                                                    </div>
+                                                    <p class="starability-result" data-rating=<%=review.rating%>>
+                                                        Rated: <%=review.rating%> stars
+                                                    </p>
+                                                </div>
+                                                <p class="fs-400 text-neutral">
+                                                    <%=review.body%>
+                                                </p>
+
+                                            </li>
+                                            <%}%>
+                                    </ul>
+                                    <% } %>
+                                        <% if(currentUser) { %>
+                                            <a href="/campgrounds/<%=campground._id%>/reviews/new"
+                                                class="btn btn-black btn-review <%=campground.reviews.length > 0 && 'mt' %>"
+                                                style="--mt: 1.5rem;">
+                                                <svg width="24" height="25" viewBox="0 0 24 25" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <g clip-path="url(#clip0)">
+                                                        <path
+                                                            d="M12 3.5C17.514 3.5 22 7.092 22 11.507C22 16.424 16.855 19.468 12.09 19.468C10.153 19.468 8.707 19.071 7.696 18.824C6.696 19.437 6.101 19.861 3.424 20.644C3.959 19.271 4.147 17.896 4.026 16.379C3.188 15.379 2.001 13.979 2.001 11.507C2 7.092 6.486 3.5 12 3.5ZM12 1.5C5.662 1.5 0 5.726 0 11.507C0 13.557 0.738 15.57 2.047 17.132C2.102 18.962 1.024 21.588 0.054 23.5C2.656 23.03 6.355 21.992 8.032 20.964C9.45 21.309 10.807 21.467 12.091 21.467C19.175 21.467 24.001 16.63 24.001 11.506C24 5.695 18.299 1.5 12 1.5ZM8.5 11.5C8.5 12.329 7.829 13 7 13C6.172 13 5.5 12.329 5.5 11.5C5.5 10.671 6.172 10 7 10C7.829 10 8.5 10.671 8.5 11.5ZM12 10C11.172 10 10.5 10.671 10.5 11.5C10.5 12.329 11.172 13 12 13C12.829 13 13.5 12.329 13.5 11.5C13.5 10.671 12.829 10 12 10ZM17 10C16.172 10 15.5 10.671 15.5 11.5C15.5 12.329 16.172 13 17 13C17.829 13 18.5 12.329 18.5 11.5C18.5 10.671 17.829 10 17 10Z"
+                                                            fill="white" />
+                                                    </g>
+                                                    <defs>
+                                                        <clipPath id="clip0">
+                                                            <rect width="24" height="24" fill="white"
+                                                                transform="translate(0 0.5)" />
+                                                        </clipPath>
+                                                    </defs>
+                                                </svg>
+                                                Leave a
+                                                review</a>
+                                            <% } %>
+                        </div>
+                    </div>
+                </div>
+        </main>
+
+        <%- include('../partials/footer') %>
+</body>
+
+</html>

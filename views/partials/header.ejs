@@ -1,0 +1,29 @@
+<header class="primary-header container">
+    <div class="logo">
+        <img src="/assets/Logo.svg" alt="YelpCamp logo">
+        <a href="/" class="logo-text">YelpCamp</a>
+    </div>
+    <button class="nav-toggle" aria-expanded="false">
+        <span class="sr-only">Menu</span>
+    </button>
+    <nav class="primary-nav">
+        <ul class="nav-list ">
+            <li class="nav-item"><a class="text-neutral fw-600 fs-400" href="/">Home</a></li>
+            <li class="nav-item"><a class="text-neutral fw-600 fs-400" href="/campgrounds/page/1">Campgrounds</a>
+            </li>
+            <li class="nav-item"><a class="text-neutral fw-600 fs-400" href="/campgrounds/new">Add a campground</a>
+            </li>
+        </ul>
+        <div class="nav-btns">
+            <% if(!currentUser) {%>
+                <a href="/login" class="text-neutral fw-500 fs-400">Login</a>
+                <a class="btn btn-black" href="/register">Create an account</a>
+                <% } else {%>
+                    <p class="fw-700 fs-400 text-neutral">
+                        <%=currentUser.username%>
+                    </p>
+                    <a class="nav-link text-neutral fw-500 fs-400" href="/logout">Logout</a>
+                    <% } %>
+        </div>
+    </nav>
+</header>
