@@ -43,7 +43,7 @@ export const createCampground = async (req, res) => {
     req.flash('success', 'Successfully added a new campground!')
     res.redirect(`/campgrounds/${campground._id}`)
 }
-export const renderDetails = async (req, res) => {
+export const renderDetails = async (req, res, next) => {
     const campground = await Campground.findById(req.params.id).populate({
         path: 'reviews',
         populate: { path: 'author' }
@@ -56,6 +56,7 @@ export const renderDetails = async (req, res) => {
 }
 export const renderEditForm = async (req, res) => {
     const { id } = req.params
+
     const campground = await Campground.findById(id)
     if (!campground) {
         req.flash('error', 'Cannot find that campground:(')

@@ -91,7 +91,8 @@ app.all('*', (req, res, next) => {
 app.use((err, req, res, next) => {
     const { status = 505, message = 'Something went wrong..' } = err
     const returnToUrl = req.session.returnTo || '/campgrounds/page/1'
-    res.status(status).render('error', { err, returnToUrl })
+    res.status(status).req.flash('error', message)
+    return res.redirect(returnToUrl)
 })
 
 const port = process.env.PORT || 3000
