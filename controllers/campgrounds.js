@@ -25,6 +25,13 @@ export const paginate = async (req, res) => {
             })
     }
 }
+export const search = async (req, res) => {
+    if (req.query.search) {
+        const regex = new RegExp(escapeRegex(req.query.search), 'gi')
+        const campgrounds = await Campground.find({ title: regex })
+        res.render('campgrounds/index', { campgrounds, hasPages: false })
+    }
+}
 export const renderNewCampgroundForm = async (req, res) => {
     res.render('campgrounds/new')
 }
